@@ -6,17 +6,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.CameraPosition
-import com.naver.maps.map.LocationTrackingMode
-import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.geometry.LatLngBounds
+import com.naver.maps.map.*
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
-import com.sesac.firewaterinfo.MY_DEBUG_TAG
-import com.sesac.firewaterinfo.MY_LATITUDE
-import com.sesac.firewaterinfo.MY_LONGITUDE
+import com.sesac.firewaterinfo.*
+import com.sesac.firewaterinfo.common.FireApplication
+import com.sesac.firewaterinfo.common.FuncModule
+import com.sesac.firewaterinfo.common.RestFunction
 import com.sesac.firewaterinfo.databinding.FragmentMapBinding
+import java.util.*
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -28,10 +33,20 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         fun newInstance(): MapFragment {
             return MapFragment()
         }
+
+        fun reloadMarkers() {
+            if (MARKERSS.isNotEmpty()) {
+                MARKERSS.forEach {
+                    it.map = naverMap
+                }
+            }
+        }
     }
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var nowCamPos: CameraPosition
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,6 +63,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 getMapAsync(this@MapFragment)
             }
 
+            refreshBtn.setOnClickListener {
+                val rf = RestFunction()
+                with(nowCamPos.target) {
+                    rf.selectSimpleFW(latitude,longitude)
+                }
+                it.isVisible = false
+            }
+
+            FIRST_START_APPLICATION = false
+
             return root
         }
     }
@@ -55,7 +80,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         if (locationSource.onRequestPermissionsResult(requestCode, permissions, grantResults)) {
             if (!locationSource.isActivated) {
@@ -80,40 +105,58 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             isCompassEnabled = false
             isZoomControlEnabled = false
             isLocationButtonEnabled = false
-            setLogoMargin(0,0,0,0)
+            setLogoMargin(0, 0, 0, 0)
         }
 
         var camPos = CameraPosition(LatLng(MY_LATITUDE, MY_LONGITUDE), 16.0)
 
-        nMap.cameraPosition = camPos
+        naverMap = nMap.apply {
 
-        nMap.locationSource = locationSource
-        nMap.locationTrackingMode = LocationTrackingMode.Follow
+            cameraPosition = camPos
+            extent = LatLngBounds(LatLng(31.43, 122.37), LatLng(44.35, 132.0))
+            minZoom = 6.0
+            maxZoom = 19.0
+
+            locationSource = Companion.locationSource
+            locationTrackingMode = LocationTrackingMode.Follow
+//            addOnCameraChangeListener {reason, animated ->
+//                if (reason == -1) {
+//                    Log.d(MY_DEBUG_TAG, "addOnCameraChangeListener: $reason")
+//
+//                }
+//            }
+            addOnCameraIdleListener {
+                binding.refreshBtn.also {
+                    if (!it.isVisible) it.isVisible = true
+                    nowCamPos = cameraPosition
+
+                    val fm = FuncModule()
+                    with(nowCamPos.target) {
+                        fm.saveLastLocation(latitude.toString(), longitude.toString())
+                    }
+                }
+            }
+
+            setOnMapClickListener { pointF, latLng ->
+                binding.searchText.also {
+                    if (it.isFocused) it.clearFocus()
+                }
+            }
 
 
-        naverMap = nMap
+        }
 
-
+        setMarkersMap()
     }
+
+    private fun setMarkersMap() {
+        MARKERSS.forEach {
+            it.map = naverMap
+        }
+    }
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

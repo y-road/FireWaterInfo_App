@@ -22,8 +22,9 @@
             android:layout_marginEnd="@dimen/distance_normal"
             android:layout_marginBottom="@dimen/distance_normal"
             android:background="@drawable/search_box"
+            android:elevation="@dimen/elevation_normal"
             android:hint="@string/searchAddress_text"
-            android:paddingVertical="4dp"
+            android:paddingVertical="@dimen/padding_normal"
             android:paddingLeft="@dimen/distance_normal"
             android:textColor="@color/black"
             android:textSize="@dimen/textSize_normalBig"
@@ -39,6 +40,22 @@
 
     </RelativeLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/refreshBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@id/reLayout"
+        android:layout_centerInParent="true"
+        android:background="@drawable/refresh_btn_background"
+        android:drawableLeft="@drawable/refresh_icon"
+        android:elevation="@dimen/elevation_normal"
+        android:paddingHorizontal="@dimen/distance_normal"
+        android:text="@string/refresh_text"
+        android:textColor="@color/naver_Blue"
+        android:textSize="@dimen/textSize_normal"
+        android:visibility="invisible"
+        android:textAllCaps="false" />
+
     <com.naver.maps.map.widget.LocationButtonView
         android:id="@+id/locationBtn"
         android:layout_width="wrap_content"
@@ -51,16 +68,16 @@
         android:id="@+id/compassBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/distance_normal"
+        android:layout_below="@id/reLayout"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/reLayout" />
+        android:layout_margin="@dimen/distance_normal" />
 
     <com.naver.maps.map.widget.ZoomControlView
         android:id="@+id/zoomBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp" />
 
 </RelativeLayout>

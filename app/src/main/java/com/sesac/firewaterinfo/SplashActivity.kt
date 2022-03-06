@@ -1,8 +1,10 @@
 package com.sesac.firewaterinfo
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,11 +14,16 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.sesac.firewaterinfo.common.FireApplication
+import com.sesac.firewaterinfo.common.FuncModule
 import com.sesac.firewaterinfo.dialogs.CustomDialog
 import com.sesac.firewaterinfo.common.LocationSettingBox
+import com.sesac.firewaterinfo.common.RestFunction
 import com.sesac.firewaterinfo.databinding.ActivitySplashBinding
+import com.sesac.firewaterinfo.fragments.MapFragment
 import com.sesac.firewaterinfo.permission.MyPermissionCheck
 import com.sesac.firewaterinfo.permission.MyPreferenceManager
+import java.lang.StringBuilder
 
 class SplashActivity : AppCompatActivity() {
 
@@ -24,12 +31,21 @@ class SplashActivity : AppCompatActivity() {
     private var returnLocFlag = false
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private var fm = FuncModule()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        val md = fm.readLastLocation()
+
+        if (md[0] != 0.0 && md[1] != 0.0) {
+            MY_LATITUDE = md[0]
+            MY_LONGITUDE = md[1]
+            Log.d(MY_DEBUG_TAG, "lastLocation= ${md[0]} , ${md[1]}")
+        }
     }
 
     private var rejectedCnt = 0
@@ -45,19 +61,29 @@ class SplashActivity : AppCompatActivity() {
             val permissionFlag = MyPreferenceManager.getInstance().isPermission
 
             if (permissionFlag) {
-                Handler().postDelayed({
 
-                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                        && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                ) {
+                }
+
+                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                    if (location != null) {
+
+                        MY_LATITUDE = location.latitude
+                        MY_LONGITUDE = location.longitude
+
+
+                        fm.saveLastLocation(MY_LATITUDE.toString(),MY_LONGITUDE.toString())
                     }
-                    fusedLocationClient.lastLocation
-                        .addOnSuccessListener { location ->
-                            if (location != null) {
-                                MY_LATITUDE = location.latitude
-                                MY_LONGITUDE = location.longitude
-                                Log.d(MY_DEBUG_TAG, "latitude= $MY_LATITUDE , longitude= $MY_LONGITUDE")
-                            }
-                        }
+                }
+
+                val rf = RestFunction()
+                rf.selectSimpleFW(MY_LATITUDE, MY_LONGITUDE)
+
+                Handler().postDelayed({
 
                     val intent = Intent(this@SplashActivity, MainActivity::class.java)
                     startActivity(intent)
