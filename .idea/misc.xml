@@ -4,11 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2095" />
+        <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/face_icon.xml" value="0.2095" />
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/ic_baseline_refresh_24.xml" value="0.2095" />
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2095" />
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/icon.xml" value="0.2095" />
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/loc_btn.xml" value="0.2095" />
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/loc_btn_back.xml" value="0.2095" />
+        <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/location_btn_background.xml" value="0.199" />
+        <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/location_icon.xml" value="0.199" />
+        <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/nofollow_icon.xml" value="0.2095" />
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/refresh_btn_background.xml" value="0.2095" />
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/refresh_icon.xml" value="0.2095" />
         <entry key="..\:/AndroidWorkSpace/Basic/FireWaterInfo/app/src/main/res/drawable/search_box.xml" value="0.2095" />

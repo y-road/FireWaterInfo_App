@@ -8,6 +8,11 @@ import retrofit2.http.Query
 interface FireWaterRestService {
 
     @GET("/api/simple/firewater")
-    fun requestSimpleFWSelect(@Query("latitude") latitude: Double, @Query("longitude") longitude: Double): Call<List<SimpleFW>>
+    fun requestSimpleFWSelect(
+        @Query("latitudeL") latitudeL: Double,
+        @Query("latitudeH") latitudeH: Double,
+        @Query("longitudeL") longitudeL: Double,
+        @Query("longitudeR") longitudeR: Double
+    ): Call<List<SimpleFW>>
 
 }

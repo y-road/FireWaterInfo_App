@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="padding_normal">8dp</dimen>
+    <dimen name="padding_normalBig">10dp</dimen>
     <dimen name="textSize_normal">16sp</dimen>
     <dimen name="textSize_normalBig">24sp</dimen>
     <dimen name="distance_normal">16dp</dimen>
+    <dimen name="distance_normalBig">24dp</dimen>
     <dimen name="distance_long">32dp</dimen>
     <dimen name="elevation_normal">10dp</dimen>
+    <dimen name="location_btn_size">48dp</dimen>
 </resources>

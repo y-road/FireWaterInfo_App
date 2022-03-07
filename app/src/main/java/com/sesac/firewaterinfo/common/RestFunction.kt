@@ -17,10 +17,10 @@ import retrofit2.Response
 
 class RestFunction {
 
-    fun selectSimpleFW(reqLat: Double, reqLon: Double) {
+    fun selectSimpleFW(reqLatL: Double,reqLatH: Double, reqLonL: Double, reqLonR: Double) {
         val firewaterService = RetrofitOkHttpManager.firewaterRESTService
-        val call: Call<List<SimpleFW>> = firewaterService.requestSimpleFWSelect(reqLat,
-            reqLon)
+        val call: Call<List<SimpleFW>> = firewaterService.requestSimpleFWSelect(reqLatL, reqLatH,
+            reqLonL, reqLonR)
 
         call.enqueue(object : Callback<List<SimpleFW>> {
             override fun onResponse(
@@ -91,13 +91,13 @@ class RestFunction {
                 isHideCollidedMarkers = false // 지도 축소로 인해 마커가 겹쳐질 경우 하나로 뭉쳐짐
                 isHideCollidedCaptions = true // 마커의 아이콘은 유지되고 겹쳐진 캡션만 안보임
 
-                if (!FIRST_START_APPLICATION) {
-                    MapFragment.reloadMarkers()
-                }
-
                 onClickListener = listener
             }
             MARKERSS.add(marker)
+
+            if (!FIRST_START_APPLICATION) {
+                MapFragment.reloadMarkers()
+            }
         }
         Log.d(MY_DEBUG_TAG, "END")
     }

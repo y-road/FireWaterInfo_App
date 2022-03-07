@@ -9,7 +9,11 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.View
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -37,6 +41,17 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // dp 사이즈 비율 구하기 위해 테스트하는 코드------------
+//        val display = windowManager.defaultDisplay
+//        val outmetrics = DisplayMetrics()
+//        display.getMetrics(outmetrics)
+//        val density = resources.displayMetrics.density
+//        Log.d(MY_DEBUG_TAG, "outmetrics= $outmetrics")
+        // ------------------------------------------------------
+
+        window.statusBarColor = Color.rgb(235, 94, 40)
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         val md = fm.readLastLocation()
@@ -76,12 +91,19 @@ class SplashActivity : AppCompatActivity() {
                         MY_LONGITUDE = location.longitude
 
 
-                        fm.saveLastLocation(MY_LATITUDE.toString(),MY_LONGITUDE.toString())
+                        fm.saveLastLocation(MY_LATITUDE.toString(), MY_LONGITUDE.toString())
                     }
                 }
 
+                val km = 3.0
+                val degree = 0.009
+
                 val rf = RestFunction()
-                rf.selectSimpleFW(MY_LATITUDE, MY_LONGITUDE)
+                rf.selectSimpleFW(
+                    MY_LATITUDE - (km * degree),
+                    MY_LATITUDE + (km * degree),
+                    MY_LONGITUDE - (km * degree),
+                    MY_LONGITUDE + (km * degree))
 
                 Handler().postDelayed({
 

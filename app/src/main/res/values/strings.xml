@@ -4,7 +4,6 @@
     <string name="searchAddress_text">주소검색</string>
     <string name="question1_text">정상적인 서비스를 위해 위치 권한이 필요합니다.\n위치가 확인되지 않아 앱이 종료됩니다.</string>
     <string name="question1button_text">확인</string>
-    <string name="refresh_text">"  현 지도에서 검색 (반경:1km)"</string>
-
+    <string name="refresh_text">"  현 지도에서 검색"</string>
 
 </resources>
