@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/decoLine"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_above="@id/reLot1"
+        android:layout_marginTop="1dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/darker_gray" />
+
+    <RelativeLayout
+        android:id="@+id/reLot1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/fwIsAliveTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/alive_background"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="사용가능"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fwNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/fwImageV"
+            android:text="단구025호"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fwAddressTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fwIsAliveTV"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@id/fwImageV"
+            android:text="강원도 원주시 단구동 1682-5"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fwDescTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fwAddressTV"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="4dp"
+            android:layout_toLeftOf="@id/fwImageV"
+            android:text="단관공원 사거리 현진 에버빌 602동 뒤 대로변"
+            android:textColor="@color/color_main"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fwDateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fwDescTV"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="32dp"
+            android:text="최근 업데이트: 2022-03-08"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/fwImageV"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:background="@color/black" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/fwImageV"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="4dp"
+            android:background="@drawable/ic_setting" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

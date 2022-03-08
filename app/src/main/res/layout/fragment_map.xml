@@ -22,12 +22,12 @@
             android:layout_marginEnd="@dimen/distance_normal"
             android:layout_marginBottom="@dimen/distance_normal"
             android:background="@drawable/search_box"
-            android:elevation="@dimen/elevation_normal"
+            android:elevation="10dp"
             android:hint="@string/searchAddress_text"
-            android:paddingVertical="@dimen/padding_normal"
+            android:paddingVertical="8dp"
             android:paddingLeft="@dimen/distance_normal"
             android:textColor="@color/black"
-            android:textSize="@dimen/textSize_normalBig"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <ImageButton
@@ -48,12 +48,12 @@
         android:layout_centerInParent="true"
         android:background="@drawable/refresh_btn_background"
         android:drawableLeft="@drawable/refresh_icon"
-        android:elevation="@dimen/elevation_normal"
+        android:elevation="10dp"
         android:paddingHorizontal="@dimen/distance_normal"
         android:text="@string/refresh_text"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        android:textSize="@dimen/textSize_normal"
+        android:textSize="16sp"
         android:visibility="invisible" />
 
 <!--    <com.naver.maps.map.widget.LocationButtonView-->
@@ -71,10 +71,10 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/distance_normal"
-        android:layout_marginBottom="@dimen/distance_normalBig"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/location_btn_background"
         android:drawableStart="@drawable/location_icon"
-        android:paddingStart="@dimen/padding_normalBig" />
+        android:paddingStart="10dp" />
 
     <com.naver.maps.map.widget.CompassView
         android:id="@+id/compassBtn"
@@ -91,6 +91,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/distance_normal"
-        android:layout_marginBottom="@dimen/distance_normalBig" />
+        android:layout_marginBottom="24dp" />
 
 </RelativeLayout>

@@ -22,10 +22,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/lottieView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/distance_long"
+        android:layout_marginTop="32dp"
         android:text="@string/splash_text"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/textSize_normalBig"
+        android:textSize="24sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

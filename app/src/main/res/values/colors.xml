@@ -10,7 +10,9 @@
     <color name="black">#FF000000</color>
     <color name="black_2">#FF3A3A3A</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="naver_Blue">#FF447BBF</color>
+    <color name="naver_blue">#FF447BBF</color>
+    <color name="pure_blue">#FF0000FF</color>
+    <color name="pure_red">#FFFF0000</color>
 
 
 </resources>

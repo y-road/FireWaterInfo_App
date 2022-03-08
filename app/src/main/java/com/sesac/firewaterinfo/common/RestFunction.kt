@@ -9,6 +9,7 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.util.MarkerIcons
 import com.sesac.firewaterinfo.*
+import com.sesac.firewaterinfo.common.data.AllFW
 import com.sesac.firewaterinfo.common.data.SimpleFW
 import com.sesac.firewaterinfo.fragments.MapFragment
 import retrofit2.Call
@@ -100,6 +101,47 @@ class RestFunction {
             }
         }
         Log.d(MY_DEBUG_TAG, "END")
+    }
+
+
+    fun selectMyFW(digitalCode: Long) {
+        val firewaterService = RetrofitOkHttpManager.firewaterRESTService
+        val call: Call<List<AllFW>> = firewaterService.requestMyFWSelect(digitalCode)
+
+        call.enqueue(object : Callback<List<AllFW>> {
+            override fun onResponse(
+                call: Call<List<AllFW>>,
+                response: Response<List<AllFW>>,
+            ) {
+                if (response.isSuccessful) {
+                    val allFWList = response.body() as MutableList<AllFW>
+                    Log.d(MY_DEBUG_TAG, "allFWList= $allFWList")
+                    if (allFWList.isEmpty()) {
+                        Toast.makeText(FireApplication.getFireApplication(),"내가 관리 중인 소화 용수가 없어요", Toast.LENGTH_SHORT).show()
+                    } else {
+                        initMyFW(allFWList)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<AllFW>>, t: Throwable) {
+                Toast.makeText(FireApplication.getFireApplication(),
+                    "내 소화전 정보를 읽어오는데 실패했습니다.",
+                    Toast.LENGTH_SHORT).show()
+                Log.e(MY_DEBUG_TAG, t.toString())
+            }
+        })
+    }
+
+    private fun initMyFW(myFWList: MutableList<AllFW>) {
+
+        if (MYFWS.size > 0) {
+            MYFWS.clear()
+            Log.d(MY_DEBUG_TAG, "initMyFW(myFWList: List<AllFW>)")
+        }
+
+        MYFWS = myFWList
+
     }
 
 
