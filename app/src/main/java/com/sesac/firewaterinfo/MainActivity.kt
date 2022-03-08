@@ -67,11 +67,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        binding.bottomNavigationMold.selectedItemId = R.id.fireHydrantItem
-    }
-
     private fun getVisibleFragment(): Fragment? {
         val fm = this.supportFragmentManager
         val fragments: List<Fragment> = fm.fragments

@@ -1,15 +1,22 @@
 package com.sesac.firewaterinfo.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.KeyEvent.KEYCODE_ENTER
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getDrawable
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.naver.maps.geometry.LatLng
@@ -51,12 +58,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var nowCamPos: CameraPosition
 
+    private var isSearchBtnGlass = true // true : 돋보기 상태, false : x 상태
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
+
 
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
 
@@ -70,7 +81,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
                 if (naverMap.cameraPosition.zoom <= 9.0) {
                     val needZoom = (10.0 - naverMap.cameraPosition.zoom).toInt()
-                    Toast.makeText(this@MapFragment.context,"범위가 너무 넓어요. 지도를 $needZoom 단계만 확대해주세요",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MapFragment.context,
+                        "범위가 너무 넓어요. 지도를 $needZoom 단계만 확대해주세요",
+                        Toast.LENGTH_SHORT).show()
                 } else {
                     val rf = RestFunction()
                     with(nowCamPos.target) {
@@ -86,11 +99,56 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 it.isVisible = false
             }
 
+
+            searchText.setOnEditorActionListener { v, keyCode, event ->
+
+                var handled = false
+                if (keyCode == EditorInfo.IME_ACTION_DONE) {
+                    Toast.makeText(this@MapFragment.context,
+                        "${searchText.text}",
+                        Toast.LENGTH_SHORT).show()
+                    handled = true
+                    hideKeyboard(true)
+                    searchText.clearFocus()
+                    searchBtn.setBackgroundResource(R.drawable.ic_baseline_cancel_24)
+                }
+                handled
+            }
+
+            searchBtn.setOnClickListener {
+
+                if (searchText.text.isNotEmpty()) {
+                    if (isSearchBtnGlass) {
+                        Toast.makeText(this@MapFragment.context,
+                            "${searchText.text}",
+                            Toast.LENGTH_SHORT)
+                            .show()
+                        hideKeyboard(true)
+                        searchText.clearFocus()
+                    } else {
+                        with(searchText) {
+                            text.clear()
+                            requestFocus()
+                            hideKeyboard(false)
+                        }
+                    }
+
+                    isSearchBtnGlass = !isSearchBtnGlass
+                    if (isSearchBtnGlass) {
+                        searchBtn.setBackgroundResource(R.drawable.ic_baseline_search_24)
+                    } else {
+                        searchBtn.setBackgroundResource(R.drawable.ic_baseline_cancel_24)
+                    }
+                }
+            }
+
+
             FIRST_START_APPLICATION = false
 
             return root
         }
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -141,6 +199,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             isCompassEnabled = false
             isZoomControlEnabled = false
             isLocationButtonEnabled = false
+//            isScaleBarEnabled = false
             setLogoMargin(0, 0, 0, 0)
         }
 
@@ -155,28 +214,39 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             locationSource = Companion.locationSource
             locationTrackingMode = LocationTrackingMode.Follow
-//            addOnCameraChangeListener {reason, animated ->
-//                if (reason == -1) {
-//                    Log.d(MY_DEBUG_TAG, "addOnCameraChangeListener: $reason")
-//
-//                }
-//            }
+
+            addOnCameraChangeListener { reason, animated ->
+                if (reason == -1) {
+                    val draw = resources.getDrawable(R.drawable.nofollow_icon)
+                    binding.locationBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(draw,
+                        null,
+                        null,
+                        null)
+
+                    hideKeyboard(true)
+                    binding.searchText.clearFocus()
+                }
+            }
+
             addOnCameraIdleListener {
                 binding.refreshBtn.also {
                     if (!it.isVisible) it.isVisible = true
                     nowCamPos = cameraPosition
 
 
-                        val fm = FuncModule()
-                        with(nowCamPos.target) {
-                            fm.saveLastLocation(latitude.toString(), longitude.toString())
-                        }
+                    val fm = FuncModule()
+                    with(nowCamPos.target) {
+                        fm.saveLastLocation(latitude.toString(), longitude.toString())
+                    }
                 }
             }
 
             setOnMapClickListener { pointF, latLng ->
                 binding.searchText.also {
-                    if (it.isFocused) it.clearFocus()
+                    if (it.isFocused) {
+                        it.clearFocus()
+
+                    }
                 }
             }
 
@@ -195,6 +265,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun hideKeyboard(hide: Boolean) {
+        val activity = activity as MainActivity
+        val view = activity.currentFocus
+
+        if (view != null) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            when (hide) {
+                true -> imm.hideSoftInputFromWindow(view.windowToken, 0)
+                else -> imm.showSoftInput(view, 0)
+            }
+        }
+    }
 
 }
 

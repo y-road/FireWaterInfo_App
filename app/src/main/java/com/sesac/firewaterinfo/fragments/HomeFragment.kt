@@ -8,15 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sesac.firewaterinfo.MYFWS
 import com.sesac.firewaterinfo.MY_DEBUG_TAG
 import com.sesac.firewaterinfo.common.FireApplication
 import com.sesac.firewaterinfo.common.HomeRecyclerAdapter
-import com.sesac.firewaterinfo.common.OwnerCallbackable
 import com.sesac.firewaterinfo.common.RestFunction
-import com.sesac.firewaterinfo.common.data.AllFW
 import com.sesac.firewaterinfo.databinding.FragmentHomeBinding
 import kotlinx.coroutines.*
 
