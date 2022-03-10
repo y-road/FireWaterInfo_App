@@ -12,7 +12,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="naver_blue">#FF447BBF</color>
     <color name="pure_blue">#FF0000FF</color>
-    <color name="pure_red">#FFFF0000</color>
+    <color name="dd_red">#FFDD0000</color>
 
 
 </resources>

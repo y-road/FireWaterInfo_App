@@ -1,42 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/frameLay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:layout_alignParentEnd="true" >
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
 
-        <ImageView
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_bell"/>
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="end">
 
-        <TextView
-            android:id="@+id/alarm_badge"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_gravity="right|end|top"
-            android:layout_marginTop="1dp"
-            android:background="@drawable/badge_background"/>
+            <ImageButton
+                android:id="@+id/btnAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_bell"
+                android:background="@color/white"
+                android:elevation="1dp" />
 
+            <ImageView
+                android:id="@+id/badgeNew"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/badge_background"
+                android:elevation="2dp"
+                android:layout_gravity="top|end"/>
+        </FrameLayout>
     </FrameLayout>
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/firefighterCV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/frameLay"
+        android:layout_below="@id/frame"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="16dp"
+        android:layout_marginVertical="8dp"
         app:cardCornerRadius="20dp">
 
         <RelativeLayout
@@ -47,40 +51,45 @@
 
             <ImageView
                 android:id="@+id/pictureIV"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_marginHorizontal="@dimen/distance_normal"
                 android:src="@drawable/picture_back" />
 
             <TextView
-                android:id="@+id/myBelongTV"
+                android:id="@+id/myBelong1TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_toEndOf="@id/pictureIV"
-                android:text="원주소방서 단구119센터"
-                android:textSize="20sp"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/myBelong2TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/myBelong1TV"
+                android:layout_marginStart="24dp"
+                android:layout_toEndOf="@id/pictureIV"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/digitalCodeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/myBelongTV"
-                android:layout_alignStart="@id/myBelongTV"
+                android:layout_below="@id/myBelong2TV"
+                android:layout_alignStart="@id/myBelong1TV"
                 android:layout_marginTop="@dimen/distance_normal"
-                android:text="1020210011340"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/myNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/digitalCodeTV"
-                android:layout_alignStart="@id/myBelongTV"
-                android:layout_marginTop="8dp"
-                android:text="김현진"
+                android:layout_alignStart="@id/myBelong1TV"
+                android:layout_alignBottom="@id/pictureIV"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
@@ -88,10 +97,9 @@
                 android:id="@+id/rankTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/myNameTV"
+                android:layout_alignBottom="@id/pictureIV"
                 android:layout_marginStart="12dp"
-                android:layout_toRightOf="@id/myNameTV"
-                android:text="소방사"
+                android:layout_toEndOf="@id/myNameTV"
                 android:textSize="22sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -103,17 +111,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/firefighterCV"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeRecycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="8dp" />
+            android:layout_alignParentStart="true" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 </RelativeLayout>

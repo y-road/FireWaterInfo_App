@@ -9,6 +9,7 @@ import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Base64
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
@@ -16,6 +17,7 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
+import com.google.android.gms.common.util.Base64Utils
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.sesac.firewaterinfo.common.FireApplication
@@ -28,6 +30,10 @@ import com.sesac.firewaterinfo.fragments.MapFragment
 import com.sesac.firewaterinfo.permission.MyPermissionCheck
 import com.sesac.firewaterinfo.permission.MyPreferenceManager
 import java.lang.StringBuilder
+import java.security.DigestException
+import java.security.MessageDigest
+import java.util.Base64.getEncoder
+import kotlin.experimental.and
 
 class SplashActivity : AppCompatActivity() {
 

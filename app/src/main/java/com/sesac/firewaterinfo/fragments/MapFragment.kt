@@ -108,7 +108,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         "${searchText.text}",
                         Toast.LENGTH_SHORT).show()
                     handled = true
-                    hideKeyboard(true)
+                    (activity as MainActivity).hideKeyboard(true)
                     searchText.clearFocus()
                     searchBtn.setBackgroundResource(R.drawable.ic_baseline_cancel_24)
                 }
@@ -116,20 +116,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             searchBtn.setOnClickListener {
-
                 if (searchText.text.isNotEmpty()) {
                     if (isSearchBtnGlass) {
                         Toast.makeText(this@MapFragment.context,
                             "${searchText.text}",
                             Toast.LENGTH_SHORT)
                             .show()
-                        hideKeyboard(true)
+                        (activity as MainActivity).hideKeyboard(true)
                         searchText.clearFocus()
                     } else {
                         with(searchText) {
                             text.clear()
                             requestFocus()
-                            hideKeyboard(false)
+                            (activity as MainActivity).hideKeyboard(false)
                         }
                     }
 
@@ -148,6 +147,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             return root
         }
     }
+
 
 
     override fun onRequestPermissionsResult(
@@ -217,13 +217,18 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             addOnCameraChangeListener { reason, animated ->
                 if (reason == -1) {
+
+                    val activity = activity as MainActivity
+                    Log.d(MY_DEBUG_TAG, "focus= ${activity.currentFocus}")
+
                     val draw = resources.getDrawable(R.drawable.nofollow_icon)
                     binding.locationBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(draw,
                         null,
                         null,
                         null)
 
-                    hideKeyboard(true)
+                    Log.d(MY_DEBUG_TAG,"reason= $reason")
+                    (activity as MainActivity).hideKeyboard(true)
                     binding.searchText.clearFocus()
                 }
             }
@@ -265,18 +270,22 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun hideKeyboard(hide: Boolean) {
-        val activity = activity as MainActivity
-        val view = activity.currentFocus
-
-        if (view != null) {
-            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            when (hide) {
-                true -> imm.hideSoftInputFromWindow(view.windowToken, 0)
-                else -> imm.showSoftInput(view, 0)
-            }
-        }
+    fun clearSearchText() {
+        binding.searchText.setText("")
     }
+
+//    private fun hideKeyboard(hide: Boolean) {
+//        val activity = activity as MainActivity
+//        val view = activity.currentFocus
+//
+//        if (view != null) {
+//            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            when (hide) {
+//                true -> imm.hideSoftInputFromWindow(view.windowToken, 0)
+//                else -> imm.showSoftInput(view, 0)
+//            }
+//        }
+//    }
 
 }
 

@@ -28,5 +28,24 @@ data class AllFW(
     var fire_station: String,
     var phone: String,
     var update_date: String,
-    var manager: Long
+    var manager: Long,
+    var img_name: String
+)
+
+data class PersonInfo(
+    var number: Int,
+    var digital_code: Long,
+    var name: String,
+    var rank: String,
+    var belong_station: String,
+    var belong_center: String,
+    var phone: String,
+    var password: String,
+    var img_name: String
+)
+
+data class LoginResult(
+    var name: String,
+    var digital_code: Long,
+    var result: Boolean
 )

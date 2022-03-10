@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollViewLogin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/custom_progressbar"
+            android:elevation="20dp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/logoLogin"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:layout_marginBottom="100dp"
+            android:src="@drawable/ic_main_logo" />
+
+        <TextView
+            android:id="@+id/tvDigcode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logoLogin"
+            android:layout_marginStart="16dp"
+            android:text="디지털코드"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/userIDLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDigcode"
+            android:layout_marginHorizontal="16dp"
+            app:boxBackgroundColor="@color/white"
+            app:counterEnabled="true"
+            app:counterMaxLength="13"
+            app:errorEnabled="true"
+            app:helperText="디지털코드 13자리를 입력하세요">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="13"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvPW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userIDLayout"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:text="비밀번호"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/userPWLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvPW"
+            android:layout_marginHorizontal="16dp"
+            app:boxBackgroundColor="@color/white"
+            app:errorEnabled="true"
+            app:helperText="비밀번호는 8자리 이상입니다"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/color_main">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/userPW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userPWLayout"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/login_background"
+            android:enabled="false"
+            android:text="로그인"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/btnLienear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnLogin"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSignin"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_back_ripple"
+                android:text="회원가입"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/black" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSearchPW"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/btn_back_ripple"
+                android:text="비밀번호 찾기"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+        <View
+            android:layout_below="@id/btnLienear"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
