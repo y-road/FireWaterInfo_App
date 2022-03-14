@@ -55,5 +55,4 @@ object RetrofitOkHttpManager {
             return response
         }
     }
-
 }
