@@ -26,6 +26,7 @@
         android:layout_height="?android:actionBarSize"
         android:layout_alignParentBottom="true"
         android:background="?android:attr/windowBackground"
+        app:labelVisibilityMode="selected"
         app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>

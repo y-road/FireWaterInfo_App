@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp">
+
+    <View
+        android:id="@+id/topLine"
+        android:layout_width="100dp"
+        android:layout_height="5dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bottom_top_line" />
+
+    <ImageView
+        android:id="@+id/previewIV"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/topLine"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/back_background"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_baseline_panorama_24" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/topLine"
+        android:layout_marginTop="16dp"
+        android:layout_toStartOf="@id/previewIV">
+
+        <TextView
+            android:id="@+id/previewTV1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/alive_background"
+            android:elevation="5dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"
+            android:text="사용가능"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/previewTV2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/previewTV1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="-"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/previewTV3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/previewTV2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="-"
+            android:textColor="@color/color_main"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/previewTV35"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/previewIV"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:text="@string/add_fw_pic_btn_text"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/previewTV4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/previewTV35"
+        android:layout_marginTop="16dp"
+        android:text="-"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/previewTV5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/previewTV4"
+        android:layout_marginTop="4dp"
+        android:text="-"
+        android:textColor="@color/color_main"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <View
+        android:id="@+id/previewV6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/previewTV5"
+        android:layout_marginTop="32dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/previewBtn7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/previewV6"
+        android:background="@color/white"
+        android:text="자세히보기"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/previewV8"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        android:layout_below="@id/previewBtn7" />
+
+</RelativeLayout>

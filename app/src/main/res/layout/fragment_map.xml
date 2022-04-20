@@ -14,30 +14,31 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp">
 
-        <EditText
+        <TextView
             android:id="@+id/searchText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginVertical="16dp"
             android:background="@drawable/search_box"
-            android:elevation="10dp"
+            android:elevation="1dp"
             android:hint="@string/searchAddress_text"
-            android:paddingVertical="8dp"
+            android:gravity="center_vertical"
             android:paddingHorizontal="16dp"
+            android:paddingEnd="48dp"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:imeOptions="actionDone"
-            android:inputType="text" />
+            android:clickable="true"
+            android:focusable="true"/>
 
         <ImageButton
             android:id="@+id/searchBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_baseline_search_24"
             android:layout_gravity="right|center_vertical"
             android:layout_marginEnd="16dp"
-            android:elevation="11dp"/>
+            android:background="@drawable/ic_baseline_search_24"
+            android:elevation="2dp" />
 
     </FrameLayout>
 
@@ -46,9 +47,11 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_below="@id/reLayout"
-        android:layout_centerInParent="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="16dp"
+        android:layout_toStartOf="@id/detailFilterTV1"
         android:background="@drawable/refresh_btn_background"
-        android:drawableLeft="@drawable/refresh_icon"
+        android:drawableStart="@drawable/refresh_icon"
         android:elevation="10dp"
         android:paddingHorizontal="@dimen/distance_normal"
         android:text="@string/refresh_text"
@@ -57,13 +60,64 @@
         android:textSize="16sp"
         android:visibility="invisible" />
 
-<!--    <com.naver.maps.map.widget.LocationButtonView-->
-<!--        android:id="@+id/locationBtn"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentStart="true"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_margin="@dimen/distance_normal" />-->
+    <TextView
+        android:id="@+id/detailFilterTV1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reLayout"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@id/detailFilterTV2"
+        android:background="@drawable/none_background"
+        android:clickable="true"
+        android:elevation="2dp"
+        android:focusable="true"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="전체"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/detailFilterTV2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reLayout"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@id/detailFilterTV3"
+        android:background="@drawable/none_background"
+        android:clickable="true"
+        android:elevation="2dp"
+        android:focusable="true"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="가능"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/detailFilterTV3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reLayout"
+        android:layout_alignEnd="@id/reLayout"
+        android:background="@drawable/none_background"
+        android:clickable="true"
+        android:elevation="2dp"
+        android:focusable="true"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="4dp"
+        android:text="불가"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+    <!--    <com.naver.maps.map.widget.LocationButtonView-->
+    <!--        android:id="@+id/locationBtn"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentStart="true"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_margin="@dimen/distance_normal" />-->
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/locationBtn"
@@ -74,14 +128,14 @@
         android:layout_marginStart="@dimen/distance_normal"
         android:layout_marginBottom="24dp"
         android:background="@drawable/location_btn_background"
-        android:drawableStart="@drawable/location_icon"
+        android:drawableStart="@drawable/ic_location_follow"
         android:paddingStart="10dp" />
 
     <com.naver.maps.map.widget.CompassView
         android:id="@+id/compassBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/reLayout"
+        android:layout_below="@id/refreshBtn"
         android:layout_alignParentStart="true"
         android:layout_margin="@dimen/distance_normal" />
 

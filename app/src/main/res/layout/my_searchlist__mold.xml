@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="8dp"
+    android:padding="8dp"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:id="@+id/linearFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/fwNameTV3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="3"
+            android:text="소화전 이름"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/fwAddressTV3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="7"
+            android:gravity="center_vertical"
+            android:text="소화전 주소는 이러쿵 저러쿵쿵쿵"
+            android:paddingStart="8dp"/>
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
+

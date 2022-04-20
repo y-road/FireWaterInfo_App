@@ -1,9 +1,36 @@
 <resources>
     <string name="app_name">방수개시</string>
     <string name="splash_text">대한민국 소방관 화이팅~!</string>
-    <string name="searchAddress_text">주소검색</string>
-    <string name="question1_text">정상적인 서비스를 위해 위치 권한이 필요합니다.\n위치가 확인되지 않아 앱이 종료됩니다.</string>
+    <string name="searchAddress_text">소화전 이름 검색</string>
+    <string name="question1_text">권한이 허락되지 않아 앱이 종료됩니다. 정상적인 서비스를 위해 위치, 카메라, 저장소 권한이 필요합니다.
+        \n\n[설정] - [애플리케이션] - [방수개시] - [권한] 에서 직접 권한을 허용하실 수 있습니다.</string>
     <string name="question1button_text">확인</string>
-    <string name="refresh_text">"  현 지도에서 검색"</string>
+    <string name="refresh_text">"현 지도에 있는 모든 소화전"</string>
+
+    <string-array name="rank">
+        <item>소방사시보</item>
+        <item>소방사</item>
+        <item>소방교</item>
+        <item>소방장</item>
+        <item>소방위</item>
+        <item>소방경</item>
+        <item>소방령</item>
+        <item>소방정</item>
+        <item>소방준감</item>
+        <item>소방감</item>
+        <item>소방정감</item>
+        <item>소방총감</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>지상식 소화전</item>
+        <item>지하식 소화전</item>
+        <item>급수탑</item>
+        <item>저수조</item>
+        <item>승하강식</item>
+        <item>비상소화장치</item>
+    </string-array>
+
+    <string name="add_fw_pic_btn_text"><u>갤러리에서 사진 변경</u></string>
 
 </resources>

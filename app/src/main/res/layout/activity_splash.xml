@@ -14,7 +14,7 @@
         android:layout_centerInParent="true"
         android:background="@color/color_main"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="dog.json"
+        app:lottie_fileName="jebal.json"
         app:lottie_loop="false" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_marginTop="32dp"
         android:text="@string/splash_text"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
 </RelativeLayout>

@@ -37,7 +37,8 @@
             android:id="@+id/fwNameTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/fwImageV"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
             android:text="단구025호"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -49,7 +50,6 @@
             android:layout_below="@id/fwIsAliveTV"
             android:layout_alignParentStart="true"
             android:layout_marginTop="8dp"
-            android:layout_toLeftOf="@id/fwImageV"
             android:text="강원도 원주시 단구동 1682-5"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -61,7 +61,6 @@
             android:layout_below="@id/fwAddressTV"
             android:layout_alignParentStart="true"
             android:layout_marginTop="4dp"
-            android:layout_toLeftOf="@id/fwImageV"
             android:text="단관공원 사거리 현진 에버빌 602동 뒤 대로변"
             android:textColor="@color/color_main"
             android:textSize="18sp"
@@ -77,25 +76,27 @@
             android:text="최근 업데이트: 2022-03-08"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/fwImageV"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/img_background"
-            android:scaleType="fitXY"/>
-
-        <ImageButton
+        <TextView
+            android:id="@+id/goToMarkerTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/fwImageV"
+            android:layout_alignBottom="@id/fwDateTV"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/ic_setting" />
+            android:layout_margin="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="지도로 보기"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="@dimen/textSize_16"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/removeFavoriteBtn"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/ic_baseline_cancel_24"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 

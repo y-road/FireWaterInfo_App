@@ -2,7 +2,10 @@ package com.sesac.firewaterinfo.dialogs
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Window
 import android.widget.TextView
 import com.google.android.material.button.MaterialButton
@@ -22,6 +25,11 @@ class CustomDialog(private val owner: Activity) : Dialog(owner) {
 
         confirmBtn.setOnClickListener {
             owner.finish()
+
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", owner.packageName, null)
+            intent.data = uri
+            context.startActivity(intent)
         }
     }
 }

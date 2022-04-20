@@ -24,7 +24,7 @@ class LocationSettingBox(private val owner: Activity) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         return AlertDialog.Builder(owner)
-            .setMessage("단말기의 위치설정이 필요합니다.")
+            .setMessage("단말기의 위치설정이 켜져 있어야 합니다.")
             .setCancelable(false)
             .setPositiveButton("확인") { _, _ ->
                 with(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)) {

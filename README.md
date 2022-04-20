@@ -1,4 +1,4 @@
-방수개시
+방수개시 - 송승현
 =======
 
-Fire water management android app for firefighter
+Fire hydrant wiki app that allows firefighters to autonomously create, edit and share information about fire hydrants

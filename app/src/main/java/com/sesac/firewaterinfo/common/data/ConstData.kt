@@ -1,11 +1,15 @@
 package com.sesac.firewaterinfo
 
+import android.app.Person
 import android.content.Context
+import android.graphics.Bitmap
 import com.naver.maps.map.overlay.Marker
 import com.sesac.firewaterinfo.common.FireApplication
 import com.sesac.firewaterinfo.common.data.AllFW
 import com.sesac.firewaterinfo.common.data.LoginResult
+import com.sesac.firewaterinfo.common.data.MyFavorites
 import com.sesac.firewaterinfo.common.data.PersonInfo
+import java.io.File
 
 var MY_LATITUDE: Double = 37.885340
 var MY_LONGITUDE: Double = 127.729823
@@ -25,7 +29,10 @@ val SHARED_PREFERENCE = FireApplication.getFireApplication()?.getSharedPreferenc
 
 var FIRST_START_APPLICATION: Boolean = true
 
-var MY_INFO: PersonInfo? = PersonInfo(0,0L,"","","","","","","")
+var MY_INFO : PersonInfo? = null
 
-var LOG_ON_STATUS: LoginResult = LoginResult(name = "", digital_code=0L, result = false)
+var LOG_ON_STATUS: LoginResult? = null
 
+var MY_FAVORITE : List<MyFavorites>? = null
+
+var AIM_MY_FAVORITE: AllFW? = null

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <View
+        android:id="@+id/topLine"
+        android:layout_width="100dp"
+        android:layout_height="5dp"
+        android:background="@drawable/bottom_top_line"
+        android:layout_gravity="center_horizontal"/>
+
+<!--    <TextView-->
+<!--        android:id="@+id/editPhoto"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:text="사진 수정"-->
+<!--        android:textSize="20sp"-->
+<!--        android:paddingVertical="8dp"-->
+<!--        android:background="@drawable/btn_back_ripple"/>-->
+
+    <TextView
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="내용 수정"
+        android:textSize="20sp"
+        android:paddingVertical="8dp"
+        android:background="@drawable/btn_back_ripple"/>
+
+</LinearLayout>

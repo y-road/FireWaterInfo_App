@@ -1,37 +1,44 @@
 package com.sesac.firewaterinfo.fragments
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.KeyEvent.KEYCODE_ENTER
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.widget.AppCompatButton
-import androidx.constraintlayout.widget.ConstraintSet
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getDrawable
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import com.jakewharton.rxbinding4.InitialValueObservable
+import com.jakewharton.rxbinding4.widget.textChanges
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.LatLngBounds
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MarkerIcons
 import com.sesac.firewaterinfo.*
 import com.sesac.firewaterinfo.R
 import com.sesac.firewaterinfo.common.FireApplication
 import com.sesac.firewaterinfo.common.FuncModule
-import com.sesac.firewaterinfo.common.RestFunction
+import com.sesac.firewaterinfo.common.RetrofitOkHttpManager
+import com.sesac.firewaterinfo.common.data.AllFW
+import com.sesac.firewaterinfo.common.data.SimpleFW
 import com.sesac.firewaterinfo.databinding.FragmentMapBinding
-import java.util.*
+import com.sesac.firewaterinfo.dialogs.BottomSheetDialogMy
+import com.sesac.firewaterinfo.dialogs.BottomSheetSearch
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.concurrent.TimeUnit
 
 class MapFragment : Fragment(), OnMapReadyCallback {
 
@@ -39,6 +46,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         lateinit var locationSource: FusedLocationSource
         lateinit var naverMap: NaverMap
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+
+        lateinit var selectedMarker: Marker
 
         fun newInstance(): MapFragment {
             return MapFragment()
@@ -53,12 +62,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+//    private var lastCameraPosition: CameraPosition? = null
+
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var nowCamPos: CameraPosition
 
-    private var isSearchBtnGlass = true // true : 돋보기 상태, false : x 상태
+    var nowBottomSearchDialog: BottomSheetSearch? = null
+
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateView(
@@ -79,13 +91,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
             refreshBtn.setOnClickListener {
 
-                if (naverMap.cameraPosition.zoom <= 9.0) {
-                    val needZoom = (10.0 - naverMap.cameraPosition.zoom).toInt()
+                detailFilterTV1.setBackgroundResource(R.drawable.orange_background)
+                detailFilterTV2.setBackgroundResource(R.drawable.none_background)
+                detailFilterTV3.setBackgroundResource(R.drawable.none_background)
+
+                if (naverMap.cameraPosition.zoom <= 11.0) {
+                    val needZoom = (12.0 - naverMap.cameraPosition.zoom).toInt()
                     Toast.makeText(this@MapFragment.context,
                         "범위가 너무 넓어요. 지도를 $needZoom 단계만 확대해주세요",
                         Toast.LENGTH_SHORT).show()
                 } else {
-                    val rf = RestFunction()
+
                     with(nowCamPos.target) {
                         val cr = naverMap.contentRegion
                         val latL: Double = cr[0].latitude
@@ -93,62 +109,112 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                         val lonL: Double = cr[0].longitude
                         val lonH: Double = cr[2].longitude
 
-                        rf.selectSimpleFW(latL, latH, lonL, lonH)
+                        selectSimpleFW(latL, latH, lonL, lonH)
+                        detailFilterTV1.setBackgroundResource(R.drawable.orange_background)
                     }
                 }
                 it.isVisible = false
             }
 
 
-            searchText.setOnEditorActionListener { v, keyCode, event ->
+//            searchText.addTextChangedListener {
+//                Log.d(MY_DEBUG_TAG, "addTextChangedListener: ${searchText.text}")
+//
+//                if (searchText.text.length in 1..6) {
+//
+//                }
+//
+//            }
 
-                var handled = false
-                if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                    Toast.makeText(this@MapFragment.context,
-                        "${searchText.text}",
-                        Toast.LENGTH_SHORT).show()
-                    handled = true
-                    (activity as MainActivity).hideKeyboard(true)
-                    searchText.clearFocus()
-                    searchBtn.setBackgroundResource(R.drawable.ic_baseline_cancel_24)
-                }
-                handled
+            searchText.setOnClickListener {
+//                        this.frameFragmentChange(this.fragmentSe)
+//                    }
+                nowBottomSearchDialog = BottomSheetSearch()
+                nowBottomSearchDialog!!.show(parentFragmentManager, nowBottomSearchDialog!!.tag)
             }
 
             searchBtn.setOnClickListener {
-                if (searchText.text.isNotEmpty()) {
-                    if (isSearchBtnGlass) {
-                        Toast.makeText(this@MapFragment.context,
-                            "${searchText.text}",
-                            Toast.LENGTH_SHORT)
-                            .show()
-                        (activity as MainActivity).hideKeyboard(true)
-                        searchText.clearFocus()
-                    } else {
-                        with(searchText) {
-                            text.clear()
-                            requestFocus()
-                            (activity as MainActivity).hideKeyboard(false)
-                        }
-                    }
+//                    with((requireActivity() as MainActivity)) {
+//                        this.frameFragmentChange(this.fragmentSe)
+//                    }
+                nowBottomSearchDialog = BottomSheetSearch()
+                nowBottomSearchDialog!!.show(parentFragmentManager, nowBottomSearchDialog!!.tag)
+            }
 
-                    isSearchBtnGlass = !isSearchBtnGlass
-                    if (isSearchBtnGlass) {
-                        searchBtn.setBackgroundResource(R.drawable.ic_baseline_search_24)
-                    } else {
-                        searchBtn.setBackgroundResource(R.drawable.ic_baseline_cancel_24)
+//            textBtnnn.setOnClickListener {
+//
+//                val metersPerPixel = naverMap.projection.metersPerPixel // 0.3596781224379576
+//                val metersPerDp = naverMap.projection.metersPerDp // 0.9441550713996387
+//                val zooml = naverMap.cameraPosition.zoom
+//
+//                Log.d(MY_DEBUG_TAG,"zoomLevel= $zooml , metersPerPixel = $metersPerPixel , x2 = ${metersPerPixel * 2}")
+//
+//            }
+
+            FIRST_START_APPLICATION = false
+
+            detailFilterTV1.setOnClickListener {
+                detailFilterTV1.setBackgroundResource(R.drawable.orange_background)
+                detailFilterTV2.setBackgroundResource(R.drawable.none_background)
+                detailFilterTV3.setBackgroundResource(R.drawable.none_background)
+                MARKERSS.forEach {
+                    it.map = naverMap
+                }
+            }
+
+            detailFilterTV2.setOnClickListener {
+                detailFilterTV1.setBackgroundResource(R.drawable.none_background)
+                detailFilterTV2.setBackgroundResource(R.drawable.orange_background)
+                detailFilterTV3.setBackgroundResource(R.drawable.none_background)
+
+                clearMarkersMap()
+
+                for (markers in MARKERSS) {
+                    if (markers.subCaptionText == "1") {
+                        markers.map = naverMap
                     }
                 }
             }
 
+            detailFilterTV3.setOnClickListener {
+                detailFilterTV1.setBackgroundResource(R.drawable.none_background)
+                detailFilterTV2.setBackgroundResource(R.drawable.none_background)
+                detailFilterTV3.setBackgroundResource(R.drawable.orange_background)
 
-            FIRST_START_APPLICATION = false
+                clearMarkersMap()
+
+                for (markers in MARKERSS) {
+                    if (markers.subCaptionText == "0") {
+                        markers.map = naverMap
+                    }
+                }
+            }
+
+            locationBtn.setOnClickListener {
+
+                var draw: Drawable
+                with(naverMap) {
+                    when (this.locationTrackingMode) {
+                        LocationTrackingMode.Follow -> {
+                            draw = resources.getDrawable(R.drawable.ic_location_face)
+                            this.locationTrackingMode = LocationTrackingMode.Face
+                        }
+                        LocationTrackingMode.Face -> {
+                            draw = resources.getDrawable(R.drawable.ic_nofollow_new)
+                            this.locationTrackingMode = LocationTrackingMode.NoFollow
+                        }
+                        else -> {
+                            draw = resources.getDrawable(R.drawable.ic_location_follow)
+                            this.locationTrackingMode = LocationTrackingMode.Follow
+                        }
+                    }
+                }
+                locationBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(draw, null, null, null)
+            }
 
             return root
         }
     }
-
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -164,7 +230,24 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    fun clearMarkersMap() {
+        MARKERSS.forEach {
+            it.map = null
+        }
+    }
+
+    fun clearMarker() {
+        if (MARKERSS.size > 0) {
+            MARKERSS.forEach {
+                it.map = null
+            }
+            MARKERSS.clear()
+            Log.d(MY_DEBUG_TAG, "clearMarker()")
+        }
+    }
+
     override fun onMapReady(nMap: NaverMap) {
+        Log.d(MY_DEBUG_TAG, "onMapReady()")
 
         with(binding) {
             nMap.also {
@@ -172,27 +255,6 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 compassBtn.map = it
             }
 
-            locationBtn.setOnClickListener {
-
-                var draw: Drawable
-                with(naverMap) {
-                    when (this.locationTrackingMode) {
-                        LocationTrackingMode.Follow -> {
-                            draw = resources.getDrawable(R.drawable.face_icon)
-                            this.locationTrackingMode = LocationTrackingMode.Face
-                        }
-                        LocationTrackingMode.Face -> {
-                            draw = resources.getDrawable(R.drawable.nofollow_icon)
-                            this.locationTrackingMode = LocationTrackingMode.NoFollow
-                        }
-                        else -> {
-                            draw = resources.getDrawable(R.drawable.location_icon)
-                            this.locationTrackingMode = LocationTrackingMode.Follow
-                        }
-                    }
-                }
-                locationBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(draw, null, null, null)
-            }
         }
 
         nMap.uiSettings.apply {
@@ -205,8 +267,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
         var camPos = CameraPosition(LatLng(MY_LATITUDE, MY_LONGITUDE), 16.0)
 
+//        if (lastCameraPosition != null) {
+//            camPos = lastCameraPosition as CameraPosition
+//        }
+
+        // 지도의 유효영역 설정을 위해 필요한 px 값을 구하기 위함. 110dp -> px로 전환 (setContentPadding)
+        val density = resources.displayMetrics.density // 2.625
+        val topOutPx = (110 * density).toInt()
+
         naverMap = nMap.apply {
 
+            setContentPadding(0, topOutPx, 0, 0)
             cameraPosition = camPos
             extent = LatLngBounds(LatLng(31.43, 122.37), LatLng(44.35, 132.0))
             minZoom = 6.0
@@ -221,13 +292,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     val activity = activity as MainActivity
                     Log.d(MY_DEBUG_TAG, "focus= ${activity.currentFocus}")
 
-                    val draw = resources.getDrawable(R.drawable.nofollow_icon)
+                    val draw = resources.getDrawable(R.drawable.ic_nofollow_new)
                     binding.locationBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(draw,
                         null,
                         null,
                         null)
 
-                    Log.d(MY_DEBUG_TAG,"reason= $reason")
+//                    lastCameraPosition = naverMap.cameraPosition
+
+                    Log.d(MY_DEBUG_TAG, "reason= $reason")
                     (activity as MainActivity).hideKeyboard(true)
                     binding.searchText.clearFocus()
                 }
@@ -247,21 +320,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             }
 
             setOnMapClickListener { pointF, latLng ->
+                Log.d(MY_DEBUG_TAG, "setOnMapClickListener pointF= $pointF , latLng= $latLng")
                 binding.searchText.also {
                     if (it.isFocused) {
                         it.clearFocus()
-
                     }
                 }
             }
-
-
         }
 
         setMarkersMap()
-
         Log.d(MY_DEBUG_TAG, "${binding.locationBtn.width} ^ ${binding.locationBtn.height}")
-
     }
 
     private fun setMarkersMap() {
@@ -270,9 +339,147 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    fun clearSearchText() {
-        binding.searchText.setText("")
+//    fun clearSearchText() {
+//        binding.searchText.setText("")
+//    }
+
+    fun selectSimpleFW(reqLatL: Double, reqLatH: Double, reqLonL: Double, reqLonR: Double) {
+        val firewaterService = RetrofitOkHttpManager.firewaterRESTService
+        val call: Call<List<SimpleFW>> = firewaterService.requestSimpleFWSelect(reqLatL, reqLatH,
+            reqLonL, reqLonR)
+
+        call.enqueue(object : Callback<List<SimpleFW>> {
+            override fun onResponse(
+                call: Call<List<SimpleFW>>,
+                response: Response<List<SimpleFW>>,
+            ) {
+                if (response.isSuccessful) {
+                    val simpleFWList = response.body() as List<SimpleFW>
+                    if (simpleFWList.isEmpty()) {
+                        Toast.makeText(FireApplication.getFireApplication(),
+                            "현 위치 주변에 등록된 소화전이 없어요",
+                            Toast.LENGTH_SHORT).show()
+                    } else {
+                        initMarker(simpleFWList)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<SimpleFW>>, t: Throwable) {
+                Toast.makeText(FireApplication.getFireApplication(),
+                    "초기 주변 소화전 정보를 읽어오는데 실패했습니다.",
+                    Toast.LENGTH_SHORT).show()
+                Log.e(MY_DEBUG_TAG, t.toString())
+            }
+        })
     }
+
+
+    fun initMarker(fireWaterList: List<SimpleFW>) {
+
+        if (MARKERSS.size > 0) {
+            MARKERSS.forEach {
+                it.map = null
+            }
+            MARKERSS.clear()
+            Log.d(MY_DEBUG_TAG, "initMarker(fireWaterList: List<SimpleFW>)")
+        }
+
+        val listener = Overlay.OnClickListener { o ->
+//            Toast.makeText(FireApplication.getFireApplication(),
+//                "선택된 마커는: ${o.tag} 번 소화전",
+//                Toast.LENGTH_SHORT).show()
+            selectedMarker = o as Marker
+            selectOneFWDetail(o.tag as Int)
+
+            true // false: 이벤트를 맵으로 전파, true: 이벤트를 소비
+        }
+
+        fireWaterList.forEach {
+            val marker = Marker().apply {
+                position = LatLng(it.latitude, it.longitude)
+                captionText = it.name
+                tag = it.number
+//                icon = MarkerIcons.BLACK
+//                iconTintColor = Color.rgb(235, 94, 40)
+                width = 50
+                height = 80
+                captionOffset = 20
+                captionColor = Color.BLACK
+                captionHaloColor = Color.WHITE
+
+                if (it.available) {
+                    subCaptionText = "1"
+//                    subCaptionColor = Color.BLUE
+                    icon = OverlayImage.fromResource(R.drawable.ic_marker_alive)
+                } else {
+                    subCaptionText = "0"
+//                    subCaptionColor = Color.RED
+                    icon = OverlayImage.fromResource(R.drawable.ic_marker_die)
+
+                }
+//                subCaptionHaloColor = Color.WHITE
+                subCaptionTextSize = 0f
+
+                isHideCollidedSymbols = true // 시인성 향상을 위해 마커가 표시된 부분의 지도 상 심볼을 가림
+                isHideCollidedMarkers = false // 지도 축소로 인해 마커가 겹쳐질 경우 하나로 뭉쳐짐
+                isHideCollidedCaptions = true // 마커의 아이콘은 유지되고 겹쳐진 캡션만 안보임
+
+                onClickListener = listener
+            }
+            MARKERSS.add(marker)
+
+            if (!FIRST_START_APPLICATION) {
+                MapFragment.reloadMarkers()
+            }
+        }
+        Log.d(MY_DEBUG_TAG, "END")
+    }
+
+    fun selectOneFWDetail(number: Int) {
+        val firewaterService = RetrofitOkHttpManager.firewaterRESTService
+        val call: Call<AllFW> = firewaterService.selectOneFWDetail(number)
+
+        call.enqueue(object : Callback<AllFW> {
+            override fun onResponse(call: Call<AllFW>, response: Response<AllFW>) {
+                if (response.isSuccessful) {
+                    val fwDetail = response.body() as AllFW
+                    if (fwDetail.number > 0) {
+                        val bots = BottomSheetDialogMy(fwDetail).newInstance(fwDetail)
+                        bots.show(parentFragmentManager, bots.tag)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<AllFW>, t: Throwable) {
+                Toast.makeText(FireApplication.getFireApplication(),
+                    "디테일 소화전 정보를 불러오는데 실패했습니다.",
+                    Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    //    override fun onPause() {
+//        super.onPause()
+//        Log.d(MY_DEBUG_TAG,"onPause= $this")
+//    }
+//
+//    override fun onStop() {
+//        super.onStop()
+//        Log.d(MY_DEBUG_TAG,"onStop= $this")
+//    }
+//
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        Log.d(MY_DEBUG_TAG,"onDestroyView= $this")
+//    }
+//
+
+//
+//    override fun onDetach() {
+//        super.onDetach()
+//        Log.d(MY_DEBUG_TAG,"onDetach= $this")
+//    }
 
 //    private fun hideKeyboard(hide: Boolean) {
 //        val activity = activity as MainActivity

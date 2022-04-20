@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainNestedSV"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingTop="16dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <ImageButton
+                android:id="@+id/btnBackKey"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/back_background"
+                android:elevation="1dp"
+                android:src="@drawable/ic_baseline_arrow_back_ios_new_24" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="간편 회원가입 신청"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="32dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/nameTV1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:text="이름" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/nameTV1"
+                    android:text="  *"
+                    android:textColor="@android:color/holo_red_dark" />
+
+                <EditText
+                    android:id="@+id/nameET1"
+                    android:layout_width="100dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/nameTV1"
+                    android:background="@drawable/signin_background"
+                    android:hint="홍길동"
+                    android:paddingHorizontal="8dp"/>
+
+                <TextView
+                    android:id="@+id/rankTV1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/nameET1"
+                    android:text="계급" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/rankTV1"
+                    android:text="  *"
+                    android:textColor="@android:color/holo_red_dark" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/rankTV1"
+                    android:layout_alignStart="@id/rankTV1"
+                    android:background="@drawable/signin_background"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spinnerRank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:entries="@array/rank"
+                        android:popupBackground="@drawable/signin_background"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/digitalCodeTV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="디지털 코드" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/digitalCodeTV2"
+                android:text="  *"
+                android:textColor="@android:color/holo_red_dark" />
+
+            <EditText
+                android:id="@+id/digitalCodeET2"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/digitalCodeTV2"
+                android:background="@drawable/signin_background"
+                android:hint="1020220012345"
+                android:inputType="number"
+                android:paddingHorizontal="8dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/passwordTV2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="비밀번호" />
+
+
+            <TextView
+                android:id="@+id/passwordTV3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/passwordTV2"
+                android:text="  *"
+                android:textColor="@android:color/holo_red_dark" />
+            <TextView
+                android:id="@+id/passwordTV4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/passwordTV3"
+                android:text="패스워드가 일치하지 않습니다"
+                android:textColor="@android:color/holo_red_dark"
+                android:visibility="invisible"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:weightSum="2">
+
+            <EditText
+                android:id="@+id/passwordET1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/signin_background"
+                android:hint="8자리 이상 입력"
+                android:inputType="textPassword"
+                android:paddingHorizontal="8dp" />
+
+            <EditText
+                android:id="@+id/passwordET2"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/signin_background"
+                android:hint="한번 더 입력"
+                android:inputType="textPassword"
+                android:paddingHorizontal="8dp" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/phoneTV3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="전화번호" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/phoneTV3"
+                android:text="  *"
+                android:textColor="@android:color/holo_red_dark" />
+
+            <EditText
+                android:id="@+id/phoneET3"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/phoneTV3"
+                android:background="@drawable/signin_background"
+                android:hint="휴대전화 또는 사무실 번호"
+                android:inputType="number"
+                android:paddingHorizontal="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/belongTV35"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="소속 (소방서)" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/belongTV35"
+                android:text="  *"
+                android:textColor="@android:color/holo_red_dark" />
+
+            <EditText
+                android:id="@+id/belongET35"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/belongTV35"
+                android:background="@drawable/signin_background"
+                android:hint="원주소방서"
+                android:paddingHorizontal="8dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/belongTV4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="소속 (센터, 지역대 등)" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/belongTV4"
+                android:text="  *"
+                android:textColor="@android:color/holo_red_dark" />
+
+            <EditText
+                android:id="@+id/belongET4"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_below="@id/belongTV4"
+                android:background="@drawable/signin_background"
+                android:hint="단구119안전센터"
+                android:paddingHorizontal="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/pictureTV5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="공무원증 사진 (뒷면) [해당 정보는 신원 확인 후 폐기]" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/pictureTV5"
+                android:text="  *"
+                android:textColor="@android:color/holo_red_dark" />
+
+            <ImageView
+                android:id="@+id/IV5"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/pictureTV5"
+                android:background="@drawable/signin_background" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnTakePic6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/IV5"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/take_pic_background"
+                android:text="사진 촬영"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSend7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btnTakePic6"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/login_background"
+                android:enabled="false"
+                android:text="완료"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <ProgressBar
+                android:id="@+id/progressbarSign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

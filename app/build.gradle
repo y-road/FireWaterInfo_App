@@ -43,6 +43,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:5.0.1"
     implementation 'com.naver.maps:map-sdk:3.14.0'
     implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     implementation 'com.squareup.okhttp3:okhttp:4.9.3'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.0'
@@ -54,6 +55,13 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
+
+    implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
+
+    implementation "io.reactivex.rxjava3:rxjava:3.1.4"
+    implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
+    implementation "com.jakewharton.rxbinding4:rxbinding:4.0.0"
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
