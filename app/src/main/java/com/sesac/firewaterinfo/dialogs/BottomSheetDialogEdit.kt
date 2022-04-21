@@ -222,9 +222,9 @@ class BottomSheetDialogEdit(val alfw3: AllFW) : BottomSheetDialogFragment() {
                     val cntResult = response.body() as CntResult
 
                     if (cntResult.cnt >= 1) {
-                        Toast.makeText(FireApplication.getFireApplication(),
-                            "수정 로그 추가- 반환: ${cntResult.cnt}",
-                            Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(FireApplication.getFireApplication(),
+//                            "수정 로그 추가- 반환: ${cntResult.cnt}",
+//                            Toast.LENGTH_SHORT).show()
                         addNewFw(
                             fName,
                             fSerial,
@@ -303,9 +303,9 @@ class BottomSheetDialogEdit(val alfw3: AllFW) : BottomSheetDialogFragment() {
                     val cntResult = response.body() as CntResult
 
                     if (cntResult.cnt >= 1) {
-                        Toast.makeText(FireApplication.getFireApplication(),
-                            "소화전 추가 - 반환: ${cntResult.cnt}",
-                            Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(FireApplication.getFireApplication(),
+//                            "소화전 추가 - 반환: ${cntResult.cnt}",
+//                            Toast.LENGTH_SHORT).show()
                         removeOldFW(alfw3.number)
                     }
                 }
@@ -333,9 +333,9 @@ class BottomSheetDialogEdit(val alfw3: AllFW) : BottomSheetDialogFragment() {
                     val cntResult = response.body() as CntResult
 
                     if (cntResult.cnt >= 1) {
-                        Toast.makeText(FireApplication.getFireApplication(),
-                            "기존 소화전 삭제 - 반환: ${cntResult.cnt}",
-                            Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(FireApplication.getFireApplication(),
+//                            "기존 소화전 삭제 - 반환: ${cntResult.cnt}",
+//                            Toast.LENGTH_SHORT).show()
                     }
                 }
             }
