@@ -4,6 +4,10 @@
     <string name="searchAddress_text">소화전 이름 검색</string>
     <string name="question1_text">권한이 허락되지 않아 앱이 종료됩니다. 정상적인 서비스를 위해 위치, 카메라, 저장소 권한이 필요합니다.
         \n\n[설정] - [애플리케이션] - [방수개시] - [권한] 에서 직접 권한을 허용하실 수 있습니다.</string>
+    <string name="question2_text">지금은 알파 테스트 기간이 아닙니다.
+        \n\n 자세한 사항은 아래 메일로 문의바랍니다.
+        \n\n 문의: guswls9119@korea.kr
+        \n (메일 주소 클릭시, 클립보드에 복사)</string>
     <string name="question1button_text">확인</string>
     <string name="refresh_text">"현 지도에 있는 모든 소화전"</string>
 

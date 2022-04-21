@@ -8,6 +8,9 @@ import retrofit2.http.*
 
 interface FireWaterRestService {
 
+    @GET("/api/firewater/check-api")
+    fun checkAPI(): Call<FireDefault>
+
     @GET("/api/firewater/simple")
     fun requestSimpleFWSelect(
         @Query("latitudeL") latitudeL: Double,
