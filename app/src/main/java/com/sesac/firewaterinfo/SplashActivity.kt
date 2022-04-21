@@ -26,6 +26,7 @@ import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.util.MarkerIcons
 import com.sesac.firewaterinfo.common.*
+import com.sesac.firewaterinfo.common.data.FireDefault
 import com.sesac.firewaterinfo.dialogs.CustomDialog
 import com.sesac.firewaterinfo.common.data.SimpleFW
 import com.sesac.firewaterinfo.databinding.ActivitySplashBinding
@@ -38,6 +39,9 @@ import retrofit2.Response
 import java.lang.StringBuilder
 import java.security.DigestException
 import java.security.MessageDigest
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
 import java.util.Base64.getEncoder
 import kotlin.experimental.and
 
@@ -93,7 +97,8 @@ class SplashActivity : AppCompatActivity() {
                         android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this,
                         android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                ) {}
+                ) {
+                }
                 fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                     if (location != null) {
 
@@ -107,24 +112,29 @@ class SplashActivity : AppCompatActivity() {
                 val km = 3.0
                 val degree = 0.009
 
-//                selectSimpleFW(
-//                    MY_LATITUDE - (km * degree),
-//                    MY_LATITUDE + (km * degree),
-//                    MY_LONGITUDE - (km * degree),
-//                    MY_LONGITUDE + (km * degree))
-
                 Handler().postDelayed({
 
-                    val intent = Intent(this@SplashActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+//                    checkAPIAlive()
+
+                    val cal = Calendar.getInstance()
+                    val month = (cal.get(Calendar.MONTH) + 1).toString()
+                    if (month == "4" || month == "5") {
+                        val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        CustomDialog.newInstance(this@SplashActivity,
+                            resources.getString(R.string.question2_text)).apply {
+                            setCanceledOnTouchOutside(false)
+                        }.show()
+                    }
                 }, 2500L)
             } else {
                 rejectedCnt++
                 Log.d(MY_DEBUG_TAG, "rejectedCnt= $rejectedCnt")
 
                 if (rejectedCnt > 2) {
-                    CustomDialog(this).apply {
+                    CustomDialog.newInstance(this, resources.getString(R.string.question1_text)).apply {
                         setCanceledOnTouchOutside(false)
                     }.show()
                 } else {
@@ -134,34 +144,30 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
-    fun selectSimpleFW(reqLatL: Double, reqLatH: Double, reqLonL: Double, reqLonR: Double) {
-        val firewaterService = RetrofitOkHttpManager.firewaterRESTService
-        val call: Call<List<SimpleFW>> = firewaterService.requestSimpleFWSelect(reqLatL, reqLatH,
-            reqLonL, reqLonR)
-
-        call.enqueue(object : Callback<List<SimpleFW>> {
-            override fun onResponse(
-                call: Call<List<SimpleFW>>,
-                response: Response<List<SimpleFW>>,
-            ) {
-                if (response.isSuccessful) {
-                    val simpleFWList = response.body() as List<SimpleFW>
-                    if (simpleFWList.isEmpty()) {
-                        Toast.makeText(FireApplication.getFireApplication(),"현 위치 주변에 등록된 소화전이 없어요", Toast.LENGTH_SHORT).show()
-                    } else {
-                        initMarker(simpleFWList)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<SimpleFW>>, t: Throwable) {
-                Toast.makeText(FireApplication.getFireApplication(),
-                    "초기 주변 소화전 정보를 읽어오는데 실패했습니다.",
-                    Toast.LENGTH_SHORT).show()
-                Log.e(MY_DEBUG_TAG, t.toString())
-            }
-        })
-    }
+//    fun checkAPIAlive() {
+//        val firewaterService = RetrofitOkHttpManager.firewaterRESTService
+//        val call: Call<FireDefault> = firewaterService.checkAPI()
+//
+//        call.enqueue(object : Callback<FireDefault> {
+//            override fun onResponse(
+//                call: Call<FireDefault>,
+//                response: Response<FireDefault>,
+//            ) {
+//                if (response.isSuccessful) {
+//                    val result = response.body() as FireDefault
+//                    if (result.result == "OK") {
+//                    } else {
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<FireDefault>, t: Throwable) {
+//                CustomDialog.newInstance(this@SplashActivity, R.string.question2_text.toString()).apply {
+//                    setCanceledOnTouchOutside(false)
+//                }.show()
+//            }
+//        })
+//    }
 
     private fun initMarker(fireWaterList: List<SimpleFW>) {
 
@@ -269,4 +275,18 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.d(MY_DEBUG_TAG,"SplashActivity.onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(MY_DEBUG_TAG,"SplashActivity.onStop()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(MY_DEBUG_TAG,"SplashActivity.onDestroy()")
+    }
 }
