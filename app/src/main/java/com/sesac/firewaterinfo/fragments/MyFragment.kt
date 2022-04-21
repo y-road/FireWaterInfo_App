@@ -60,7 +60,7 @@ class MyFragment : Fragment() {
                     call.enqueue(object : Callback<List<MyFavorites>> {
                         override fun onResponse(
                             call: Call<List<MyFavorites>>,
-                            response: Response<List<MyFavorites>>
+                            response: Response<List<MyFavorites>>,
                         ) {
                             if (response.isSuccessful) {
                                 val resultList = response.body() as List<MyFavorites>
@@ -106,12 +106,20 @@ class MyFragment : Fragment() {
         }
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            asyncRequestMyFavorites()
+        }
+    }
+
     private fun refreshMyFavoriteRecycler(favoriteList: List<MyFavorites>) {
         with(binding.homeRecycler) {
 
             MY_FAVORITE = favoriteList
             layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager(this.context).orientation))
+            addItemDecoration(DividerItemDecoration(this.context,
+                LinearLayoutManager(this.context).orientation))
             adapter = HomeRecyclerAdapter(favoriteList, requireActivity())
         }
     }

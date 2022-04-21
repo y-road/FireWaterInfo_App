@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 var nowFragment = getVisibleFragment()
-                Log.d(MY_DEBUG_TAG, "getVisibleFragment: $nowFragment")
+//                Log.d(MY_DEBUG_TAG, "getVisibleFragment: $nowFragment")
 
 //                if (nowFragment == fragmentSe) {
 //                    onBackPressed()
