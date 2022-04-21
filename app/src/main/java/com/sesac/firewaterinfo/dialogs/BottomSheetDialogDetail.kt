@@ -115,10 +115,15 @@ class BottomSheetDialogDetail(val alfw2: AllFW): BottomSheetDialogFragment() {
                 }
             }
             editBtn.setOnClickListener {
-//                val bots = BottomSheetDialogMy(fwDetail).newInstance(fwDetail)
-//                bots.show(parentFragmentManager, bots.tag)
-                val botEditMenu = BottomSheetEditMenu().newInstance(this@BottomSheetDialogDetail, alfw2)
-                botEditMenu.show(parentFragmentManager, botEditMenu.tag)
+                if (LOG_ON_STATUS != null) {
+                    val botEditMenu = BottomSheetEditMenu().newInstance(this@BottomSheetDialogDetail, alfw2)
+                    botEditMenu.show(parentFragmentManager, botEditMenu.tag)
+                } else {
+                    Toast.makeText(this@BottomSheetDialogDetail.context,
+                        "회원만 정보를 수정할 수 있습니다.",
+                        Toast.LENGTH_SHORT).show()
+                }
+
             }
 
             btnBackKey.setOnClickListener {
