@@ -153,11 +153,11 @@ class BottomSheetDialogMy(val alfw: AllFW) : BottomSheetDialogFragment() {
                     Toast.makeText(this@BottomSheetDialogMy.context,
                         "회원만 사진을 변경할 수 있습니다.",
                         Toast.LENGTH_SHORT).show()
+                }
             }
-        }
             previewBtn7.setOnClickListener {
                 val botd = BottomSheetDialogDetail(alfw)
-                botd.show(parentFragmentManager,botd.tag)
+                botd.show(parentFragmentManager, botd.tag)
                 dismiss()
             }
 
@@ -231,12 +231,12 @@ class BottomSheetDialogMy(val alfw: AllFW) : BottomSheetDialogFragment() {
 
                     val fwName2: String = arguments?.getString("fwName") ?: "-"
 
-                    addNewEdit( LOG_ON_STATUS!!.digital_code,
+                    addNewEdit(LOG_ON_STATUS!!.digital_code,
                         fwName2,
                         "photo",
                         getCurrentTimeFormat())
 
-                    changeFWPicAsync(file2, selectedNumber,fwName2)
+                    changeFWPicAsync(file2, selectedNumber, fwName2)
 
 //                    dismiss()
 //
@@ -257,7 +257,8 @@ class BottomSheetDialogMy(val alfw: AllFW) : BottomSheetDialogFragment() {
             put("edited_type", eType)
             put("edited_Date", eDate)
         }
-        val ePK = FireWaterSPLiteOpenHelper.getDBInstance(requireActivity()).insertEditedHistory(eValues, TABLE_EDIT_HISTORY)
+        val ePK = FireWaterSPLiteOpenHelper.getDBInstance(requireActivity())
+            .insertEditedHistory(eValues, TABLE_EDIT_HISTORY)
     }
 
     private fun refreshHomeFragmentList() {
@@ -265,7 +266,8 @@ class BottomSheetDialogMy(val alfw: AllFW) : BottomSheetDialogFragment() {
             launch {
                 with((requireActivity() as MainActivity)) {
                     if (this.isAlreadyAdded(this.fragmentHo)) {
-                        Log.e(MY_DEBUG_TAG, "this.isAlreadyAdded(this.fragmentHo)= ${this.isAlreadyAdded(this.fragmentHo)}")
+                        Log.e(MY_DEBUG_TAG,
+                            "this.isAlreadyAdded(this.fragmentHo)= ${this.isAlreadyAdded(this.fragmentHo)}")
                         this.fragmentHo.refreshEditedRecycler()
                     }
                 }
@@ -314,10 +316,11 @@ class BottomSheetDialogMy(val alfw: AllFW) : BottomSheetDialogFragment() {
         })
     }
 
-    fun changeFWPicAsync( //DB에 사진을 업로드하고 file name 을 업데이트 합니다.
+    fun changeFWPicAsync(
+        //DB에 사진을 업로드하고 file name 을 업데이트 합니다.
         uploadFile: File,
         number: Int,
-        fwName: String
+        fwName: String,
     ) {
 
         var response: okhttp3.Response? = null
