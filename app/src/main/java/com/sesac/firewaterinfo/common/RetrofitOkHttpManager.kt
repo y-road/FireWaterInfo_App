@@ -34,7 +34,7 @@ object RetrofitOkHttpManager {
                     .build()
                 chain.proceed(newRequest)
             }).addInterceptor(RetryInterceptor())
-            .connectTimeout(20, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(15, TimeUnit.SECONDS)
             .build()
         retrofitBuilder.client(okHttpClient) // OkHttp 와 연동
