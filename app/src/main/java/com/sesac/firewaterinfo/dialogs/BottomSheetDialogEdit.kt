@@ -125,6 +125,11 @@ class BottomSheetDialogEdit(val alfw3: AllFW) : BottomSheetDialogFragment() {
                     dismiss()
                 }
             }
+
+            btnBackKey.setOnClickListener {
+                dismiss()
+            }
+
             return root
         }
     }
