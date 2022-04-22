@@ -98,6 +98,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+
     fun gotoAimMarker(fwList: MutableList<SimpleFW>) {
 
         if (fragmentMa.nowBottomSearchDialog != null) {
@@ -218,6 +220,11 @@ class MainActivity : AppCompatActivity() {
             addToBackStack(null)
             commit()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        viewBottomLayout(true)
     }
 
     fun viewBottomLayout(flag: Boolean) {

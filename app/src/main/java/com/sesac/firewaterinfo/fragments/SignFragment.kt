@@ -99,7 +99,7 @@ class SignFragment : Fragment() {
 
                 with((activity as MainActivity)) {
                     onBackPressed()
-                    viewBottomLayout(true)
+//                    viewBottomLayout(true)
                 }
 
             }
